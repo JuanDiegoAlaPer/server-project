@@ -24,7 +24,11 @@ const register = async (req, res) => {
     });
     
     
-    
+    const existeDepartamento = await DepartamentoMunicipio.findOne({ departamento: departamento }).exec();
+    const existeMunicipio = await DepartamentoMunicipio.findOne({ municipio: municipio }).exec();
+    if ( !existeDepartamento || !existeMunicipio) {
+        return res.status(400).send({ msg: "No se encuentra ese departamento o municipio" });
+    }
     try {
         const userStorage = await user.save();
         res.status(201).send(userStorage);
